@@ -20,7 +20,7 @@ namespace Subscriber.ConsoleApp
             var subscriptionClient = new SubscriptionClient(serviceBusConnectionString, topicName, subscriptionName);
             subscriptionClient.RegisterMessageHandler(UserProcessor.ProcessUserEvents, ServiceBusManagement.ExceptionReceivedHandler);
 
-            Console.WriteLine("Service bus client registered. Waiting for a message. Press any key to exit");
+            Console.WriteLine($"Service bus client registered for subscription: {subscriptionName}. Waiting for a message. Press any key to exit");
             Console.ReadKey();
             await subscriptionClient.CloseAsync();
         }
