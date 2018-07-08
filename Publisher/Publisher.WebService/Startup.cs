@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Publisher.Infrastructure.Messaging;
@@ -27,7 +28,8 @@ namespace Publisher.WebService
             });
             string publisherserviceBusconnection = Configuration["AppSettings:PublisherServiceBusconnection"];
             string publisherTopicName = Configuration["AppSettings:PublisherTopicName"];
-            services.AddSingleton<IMessagingClient>(new AzureTopicClient(publisherserviceBusconnection, publisherTopicName));
+            var topicClient = new TopicClient(publisherserviceBusconnection, publisherTopicName, RetryPolicy.Default);
+            services.AddSingleton<IMessagingClient>(new AzureTopicClient(topicClient));
             services.AddTransient<IUsersCommandService, UsersCommandService>();
         }
 

@@ -23,7 +23,11 @@ namespace Publisher.WebService.Controllers
         {
             try
             {
-                var userId = await CommandService.Create(request);
+                if(!ModelState.IsValid)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest);
+                }
+                var userId = await CommandService.Create(request) ;
                 return Ok(new CreateUserResponse { UserId = userId});
             }
             catch(Exception ex)

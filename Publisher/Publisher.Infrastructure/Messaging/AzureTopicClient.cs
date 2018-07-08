@@ -7,16 +7,22 @@ namespace Publisher.Infrastructure.Messaging
 {
     public class AzureTopicClient : IMessagingClient
     {
-        private readonly TopicClient _topicClient;
+        private readonly ITopicClient _topicClient;
         private const string TENANTIDENTIFIER = "Tenant";
-        public AzureTopicClient(string connectionstring, string topicName)
+        public AzureTopicClient(ITopicClient topicClient)
         {
-            _topicClient = new TopicClient(connectionstring, topicName, RetryPolicy.Default);
+            _topicClient = topicClient;
         }
 
         public async Task<bool> PublishMessage(string jsonData, string tenant)
         {
-            if(string.IsNullOrEmpty(tenant))
+            if (string.IsNullOrWhiteSpace(jsonData))
+            {
+                // This can be modified to a custom exception
+                throw new Exception("Message cannot be empty");
+            }
+
+            if (string.IsNullOrWhiteSpace(tenant))
             {
                 // This can be modified to a custom exception
                 throw new Exception("Tenant cannot be empty");
