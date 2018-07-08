@@ -12,6 +12,7 @@ Technical environment:
 2. Subscriber - Application receiving the domain event
 	Runtime - .Net Core 2.0
 	Solution - Subscriber.sln
+	
     Note: 
 	1. Subscriber.ConsoleApp - .Net core console application subscribed to the domain event. 
 	2. Subscriber.AzureFunction - Tried implementing Serverless Azure functions to be the backend event processor but the supporting Azure .Net core Event hub triggers are still in beta.
